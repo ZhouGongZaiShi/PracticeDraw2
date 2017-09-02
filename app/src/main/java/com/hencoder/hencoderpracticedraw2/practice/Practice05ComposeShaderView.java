@@ -1,11 +1,20 @@
 package com.hencoder.hencoderpracticedraw2.practice;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.ComposeShader;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.hencoder.hencoderpracticedraw2.R;
 
 public class Practice05ComposeShaderView extends View {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -28,6 +37,18 @@ public class Practice05ComposeShaderView extends View {
         // 用 Paint.setShader(shader) 设置一个 ComposeShader
         // Shader 1: BitmapShader 图片：R.drawable.batman
         // Shader 2: BitmapShader 图片：R.drawable.batman_logo
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman);
+        BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.MIRROR);
+
+        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman_logo);
+        BitmapShader bitmapShader2 = new BitmapShader(logoBitmap, Shader.TileMode.CLAMP, Shader.TileMode.MIRROR);
+
+
+        PorterDuffXfermode porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+        ComposeShader composeShader = new ComposeShader(bitmapShader, bitmapShader2, porterDuffXfermode);
+
+        paint.setShader(composeShader);
     }
 
     @Override
